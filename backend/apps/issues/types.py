@@ -19,6 +19,8 @@ class ProjectType(DjangoObjectType):
             "website",
             "owner",
             "members",
+            "labels",
+            "issues",
         )
 
 
