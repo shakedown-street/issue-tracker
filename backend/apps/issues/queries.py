@@ -14,13 +14,13 @@ from .types import (
 
 class Query(graphene.ObjectType):
     projects = graphene.List(ProjectType)
-    project = graphene.Field(ProjectType, id=graphene.UUID(required=True))
+    project = graphene.Field(ProjectType, id=graphene.ID(required=True))
 
     labels = graphene.List(LabelType)
-    label = graphene.Field(LabelType, id=graphene.UUID(required=True))
+    label = graphene.Field(LabelType, id=graphene.ID(required=True))
 
     issues = graphene.List(IssueType)
-    issue = graphene.Field(IssueType, id=graphene.UUID(required=True))
+    issue = graphene.Field(IssueType, id=graphene.ID(required=True))
 
     def resolve_projects(root, info):
         return Project.objects.all()
@@ -29,7 +29,7 @@ class Query(graphene.ObjectType):
         try:
             return Project.objects.get(id=id)
         except Project.DoesNotExist:
-            return None
+            raise Project.DoesNotExist("Project does not exist")
 
     def resolve_labels(root, info):
         return Label.objects.all()
@@ -38,7 +38,7 @@ class Query(graphene.ObjectType):
         try:
             return Label.objects.get(id=id)
         except Label.DoesNotExist:
-            return None
+            raise Project.DoesNotExist("Label does not exist")
 
     def resolve_issues(root, info):
         return Issue.objects.all()
@@ -47,4 +47,4 @@ class Query(graphene.ObjectType):
         try:
             return Issue.objects.get(id=id)
         except Issue.DoesNotExist:
-            return None
+            raise Project.DoesNotExist("Issue does not exist")
