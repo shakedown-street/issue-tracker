@@ -34,7 +34,7 @@ class CreateProjectMutation(graphene.Mutation):
 
 class UpdateProjectMutation(graphene.Mutation):
     class Arguments:
-        project_id = graphene.UUID(required=True)
+        project_id = graphene.ID(required=True)
         name = graphene.String()
         description = graphene.String()
         website = graphene.String()
@@ -56,7 +56,7 @@ class UpdateProjectMutation(graphene.Mutation):
 
 class AddProjectMemberMutation(graphene.Mutation):
     class Arguments:
-        project_id = graphene.UUID(required=True)
+        project_id = graphene.ID(required=True)
         user_id = graphene.ID(required=True)
 
     project = graphene.Field(ProjectType)
@@ -71,7 +71,7 @@ class AddProjectMemberMutation(graphene.Mutation):
 
 class RemoveProjectMemberMutation(graphene.Mutation):
     class Arguments:
-        project_id = graphene.UUID(required=True)
+        project_id = graphene.ID(required=True)
         user_id = graphene.ID(required=True)
 
     project = graphene.Field(ProjectType)
@@ -86,7 +86,7 @@ class RemoveProjectMemberMutation(graphene.Mutation):
 
 class CreateLabelMutation(graphene.Mutation):
     class Arguments:
-        project_id = graphene.UUID(required=True)
+        project_id = graphene.ID(required=True)
         name = graphene.String(required=True)
         color = graphene.String()
 
@@ -105,7 +105,7 @@ class CreateLabelMutation(graphene.Mutation):
 
 class UpdateLabelMutation(graphene.Mutation):
     class Arguments:
-        label_id = graphene.UUID(required=True)
+        label_id = graphene.ID(required=True)
         name = graphene.String(required=True)
         color = graphene.String()
 
@@ -124,11 +124,11 @@ class UpdateLabelMutation(graphene.Mutation):
 
 class CreateIssueMutation(graphene.Mutation):
     class Arguments:
-        project_id = graphene.UUID(required=True)
+        project_id = graphene.ID(required=True)
         title = graphene.String(required=True)
         description = graphene.String()
         assignee_id = graphene.ID()
-        label_ids = graphene.List(graphene.UUID)
+        label_ids = graphene.List(graphene.ID)
         due_date = graphene.Date()
 
     issue = graphene.Field(IssueType)
