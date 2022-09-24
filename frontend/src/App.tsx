@@ -2,7 +2,8 @@ import * as React from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { useLazyQuery, gql } from '@apollo/client';
 import { UserContext } from './context';
-import { ForgotPassword, Home, Login, ResetPassword, SignUp, Verify } from './routes';
+import { CreateProject, ForgotPassword, Home, Login, Project, ResetPassword, SignUp, Verify } from './routes';
+import './App.scss';
 
 const ME_QUERY = gql`
   query {
@@ -31,14 +32,11 @@ export function App() {
     if (token) {
       getMe()
         .then((meRes) => {
-          console.log('Hit the .then()');
           if (meRes.data && meRes.data.me) {
             setUser(meRes.data.me);
           }
         })
-        .catch(() => {
-          console.log('Hit the .catch()');
-        });
+        .catch(() => {});
     }
   }, []);
 
@@ -71,8 +69,10 @@ export function App() {
           )}
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/create-project" element={<CreateProject />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/project/:id" element={<Project />} />
             <Route path="/reset-password/:resetPasswordKey" element={<ResetPassword />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/verify/:verificationKey" element={<Verify />} />

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../context';
 
 export function Home() {
@@ -19,6 +20,9 @@ export function Home() {
               {user.firstName} {user.lastName}
             </p>
           </div>
+          <Link to="/create-project">
+            <button>Create Project</button>
+          </Link>
         </>
       )}
     </>
