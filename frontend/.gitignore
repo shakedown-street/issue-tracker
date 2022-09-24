@@ -1,0 +1,10 @@
+# dependencies
+node_modules
+
+# parcel
+.cache
+.parcel-cache
+dist
+
+# jest
+coverage
