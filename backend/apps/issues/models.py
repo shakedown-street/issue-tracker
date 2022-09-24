@@ -23,7 +23,9 @@ class Project(CreatedModifiedMixin):
 
 
 class Label(CreatedModifiedMixin):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, related_name="labels", on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=128)
     color = models.CharField(max_length=128, blank=True, null=True)
 
@@ -32,7 +34,9 @@ class Label(CreatedModifiedMixin):
 
 
 class Issue(CreatedModifiedMixin):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, related_name="issues", on_delete=models.CASCADE
+    )
     title = models.CharField(max_length=256)
     description = models.TextField(max_length=8192, blank=True, null=True)
     created_by = models.ForeignKey(
