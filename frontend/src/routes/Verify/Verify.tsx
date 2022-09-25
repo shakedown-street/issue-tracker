@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useMutation, gql } from '@apollo/client';
-
-const VERIFY_EMAIL_MUTATION = gql`
-  mutation verifyEmail($verificationKey: String!) {
-    verifyEmail(verificationKey: $verificationKey) {
-      success
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
+import { VERIFY_EMAIL_MUTATION } from '../../mutations';
 
 export function Verify() {
   const { verificationKey } = useParams();

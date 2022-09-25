@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation, gql } from '@apollo/client';
-
-const SEND_PASSWORD_RESET_MUTATION = gql`
-  mutation sendPasswordResetEmail($email: String!) {
-    sendPasswordResetEmail(email: $email) {
-      success
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
+import { SEND_PASSWORD_RESET_MUTATION } from '../../mutations';
 
 export function ForgotPassword() {
   const [email, setEmail] = React.useState<string>('');

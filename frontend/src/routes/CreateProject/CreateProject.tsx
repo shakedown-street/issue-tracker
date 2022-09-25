@@ -1,27 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation, gql } from '@apollo/client';
-
-const CREATE_PROJECT_MUTATION = gql`
-  mutation createProject($name: String!, $description: String, $website: String) {
-    createProject(name: $name, description: $description, website: $website) {
-      project {
-        id
-        createdAt
-        modifiedAt
-        name
-        description
-        website
-        owner {
-          id
-        }
-        members {
-          id
-        }
-      }
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
+import { CREATE_PROJECT_MUTATION } from '../../mutations';
 
 export function CreateProject() {
   const [name, setName] = React.useState('');

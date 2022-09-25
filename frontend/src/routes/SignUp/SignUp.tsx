@@ -1,13 +1,6 @@
 import * as React from 'react';
-import { useMutation, gql } from '@apollo/client';
-
-const CREATE_USER_MUTATION = gql`
-  mutation createUser($email: String!, $password1: String!, $password2: String!) {
-    createUser(email: $email, password1: $password1, password2: $password2) {
-      success
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
+import { CREATE_USER_MUTATION } from '../../mutations';
 
 export function SignUp() {
   const [email, setEmail] = React.useState<string>('');

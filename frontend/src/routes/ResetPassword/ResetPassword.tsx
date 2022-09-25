@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
-
-const RESET_PASSWORD_MUTATION = gql`
-  mutation resetPassword($resetPasswordKey: String!, $password1: String!, $password2: String!) {
-    resetPassword(resetPasswordKey: $resetPasswordKey, password1: $password1, password2: $password2) {
-      success
-    }
-  }
-`;
+import { RESET_PASSWORD_MUTATION } from '../../mutations';
 
 export function ResetPassword() {
   const { resetPasswordKey } = useParams();

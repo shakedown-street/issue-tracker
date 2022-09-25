@@ -2,27 +2,7 @@ import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import { UserContext } from '../../context';
-
-const TOKEN_AUTH_MUTATION = gql`
-  mutation tokenAuth($email: String!, $password: String!) {
-    tokenAuth(email: $email, password: $password) {
-      token
-      user {
-        id
-        email
-        firstName
-        lastName
-        image
-        isStaff
-        isSuperuser
-        isDeveloper
-        isActive
-        dateJoined
-        lastLogin
-      }
-    }
-  }
-`;
+import { TOKEN_AUTH_MUTATION } from '../../mutations';
 
 export function Login() {
   const [email, setEmail] = React.useState<string>('');
