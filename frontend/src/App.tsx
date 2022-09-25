@@ -1,27 +1,10 @@
 import * as React from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { useLazyQuery, gql } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { UserContext } from './context';
 import { CreateProject, ForgotPassword, Home, Login, Project, ResetPassword, SignUp, Verify } from './routes';
+import { ME_QUERY } from './queries';
 import './App.scss';
-
-const ME_QUERY = gql`
-  query {
-    me {
-      id
-      email
-      firstName
-      lastName
-      image
-      isStaff
-      isSuperuser
-      isDeveloper
-      isActive
-      dateJoined
-      lastLogin
-    }
-  }
-`;
 
 export function App() {
   const [user, setUser] = React.useState(null);
@@ -32,6 +15,10 @@ export function App() {
     if (token) {
       getMe()
         .then((meRes) => {
+          if (meRes.error) {
+            localStorage.removeItem('token');
+            setUser(null);
+          }
           if (meRes.data && meRes.data.me) {
             setUser(meRes.data.me);
           }
