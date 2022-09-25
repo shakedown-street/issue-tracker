@@ -6,4 +6,8 @@ from .models import EmailUser
 class EmailUserType(DjangoObjectType):
     class Meta:
         model = EmailUser
-        exclude = ("password",)
+        exclude = (
+            "password",
+            "verification_key",
+            "reset_password_key",
+        )
