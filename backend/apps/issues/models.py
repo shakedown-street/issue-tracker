@@ -55,6 +55,14 @@ class Issue(CreatedModifiedMixin):
     )
     labels = models.ManyToManyField(Label, blank=True)
     due_date = models.DateField(blank=True, null=True)
+    closed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="issues_closed",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    closed_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return "{}: {}".format(self.project.name, self.title)
