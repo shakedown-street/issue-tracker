@@ -19,12 +19,12 @@ export function CreateProject() {
         website,
       },
     }).then((createProjectRes) => {
-      navigate(`/project/${createProjectRes.data.createProject.project.id}`);
+      navigate(`/${createProjectRes.data.createProject.project.id}`);
     });
   };
 
   return (
-    <>
+    <div className="container">
       <h2>Create Project</h2>
       <form onSubmit={onSubmit}>
         <p>
@@ -32,6 +32,7 @@ export function CreateProject() {
           <input
             id="name"
             type="text"
+            className="input"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -42,6 +43,7 @@ export function CreateProject() {
           <label htmlFor="description">Description</label>
           <textarea
             id="description"
+            className="input"
             rows={4}
             cols={80}
             value={description}
@@ -55,6 +57,7 @@ export function CreateProject() {
           <input
             id="website"
             type="url"
+            className="input"
             value={website}
             onChange={(e) => {
               setWebsite(e.target.value);
@@ -62,9 +65,11 @@ export function CreateProject() {
           />
         </p>
         <p>
-          <button type="submit">Create Project</button>
+          <button type="submit" className="button">
+            Create Project
+          </button>
         </p>
       </form>
-    </>
+    </div>
   );
 }

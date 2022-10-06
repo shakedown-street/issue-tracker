@@ -1,5 +1,20 @@
 import { gql } from '@apollo/client';
 
+export const PROJECTS_QUERY = gql`
+  query {
+    projects {
+      edges {
+        node {
+          id
+          pk
+          createdAt
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const PROJECT_QUERY = gql`
   query project($id: ID!) {
     project(id: $id) {
@@ -9,15 +24,9 @@ export const PROJECT_QUERY = gql`
       name
       description
       website
-      labels {
-        id
-        createdAt
-        modifiedAt
-        name
-        color
-      }
       owner {
         id
+        pk
         email
         firstName
         lastName
@@ -25,12 +34,17 @@ export const PROJECT_QUERY = gql`
         dateJoined
       }
       members {
-        id
-        email
-        firstName
-        lastName
-        image
-        dateJoined
+        edges {
+          node {
+            id
+            pk
+            email
+            firstName
+            lastName
+            image
+            dateJoined
+          }
+        }
       }
     }
   }

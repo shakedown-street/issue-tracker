@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import { UserContext } from '../../context';
 import { TOKEN_AUTH_MUTATION } from '../../mutations';
+import './Login.scss';
 
 export function Login() {
   const [email, setEmail] = React.useState<string>('');
@@ -26,13 +27,14 @@ export function Login() {
   };
 
   return (
-    <>
-      <h2>Login</h2>
-      <form onSubmit={onSubmit}>
+    <div className="container login">
+      <form className="login__form" onSubmit={onSubmit}>
+        <h2>Login</h2>
         <label htmlFor="email">Email</label>
         <input
           id="email"
           type="email"
+          className="input login__form__input"
           readOnly={loading}
           value={email}
           onChange={(e) => {
@@ -43,16 +45,20 @@ export function Login() {
         <input
           id="password"
           type="password"
+          className="input login__form__input"
           readOnly={loading}
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
-        {error && <p>{error.message}</p>}
-        {!loading && <button type="submit">Login</button>}
+        {error && <p className="login__form__error">{error.message}</p>}
+        <button className="button login__form__button" disabled={loading} type="submit">
+          Login
+        </button>
         <Link to="/forgot-password">Forgot Password</Link>
+        <Link to="/forgot-password">Resend Verification</Link>
       </form>
-    </>
+    </div>
   );
 }

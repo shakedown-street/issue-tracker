@@ -25,13 +25,14 @@ export function ResetPassword() {
   };
 
   return (
-    <>
+    <div className="container">
       <h2>Reset Password</h2>
       <form onSubmit={onSubmit}>
         <label htmlFor="password1">New Password</label>
         <input
           id="password1"
           type="password"
+          className="input"
           readOnly={loading}
           value={password1}
           onChange={(e) => {
@@ -42,6 +43,7 @@ export function ResetPassword() {
         <input
           id="password2"
           type="password"
+          className="input"
           readOnly={loading}
           value={password2}
           onChange={(e) => {
@@ -49,8 +51,12 @@ export function ResetPassword() {
           }}
         />
         {error && <p>{error.message}</p>}
-        {!loading && <button type="submit">Reset Password</button>}
+        {!loading && (
+          <button type="submit" className="button">
+            Reset Password
+          </button>
+        )}
       </form>
-    </>
+    </div>
   );
 }

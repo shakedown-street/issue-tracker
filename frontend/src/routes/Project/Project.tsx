@@ -1,49 +1,55 @@
 import * as React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import { CREATE_LABEL_MUTATION } from '../../mutations';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 import { PROJECT_QUERY } from '../../queries';
 import './Project.scss';
 
 export function Project() {
-  const { id } = useParams();
-  const { data, loading, error } = useQuery(PROJECT_QUERY, {
+  const { projectId } = useParams();
+  const {
+    data: projectData,
+    loading: projectLoading,
+    error: projectError,
+  } = useQuery(PROJECT_QUERY, {
     variables: {
-      id,
+      id: projectId,
     },
   });
 
-  console.log(data);
+  console.log(projectData);
 
-  const renderLabels = () => {
-    const labels = data.project.labels;
-
-    return labels.map((label: any) => (
-      <div key={`label-${label.id}`} className="label" style={{ backgroundColor: label.color }}>
-        {label.name}
-      </div>
-    ));
-  };
-
-  if (loading) {
+  if (projectLoading) {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    return <p>{error.message}</p>;
+  if (projectError) {
+    return <p>{projectError.message}</p>;
   }
 
-  if (!data) {
+  if (!projectData) {
     return <></>;
   }
 
   return (
-    <>
-      <h2>{data.project.name}</h2>
-      <p>{data.project.description}</p>
-      <p>Project Labels:</p>
-      {renderLabels()}
-      <button>Create Label</button>
-    </>
+    <div className="container">
+      <h2>{projectData.project.name}</h2>
+      <p>{projectData.project.description}</p>
+      <label>Owner:</label>
+      <p>
+        {projectData.project.owner.firstName} {projectData.project.owner.lastName}
+      </p>
+      <label>Members:</label>
+      <ul>
+        {projectData.project.members.edges.map((member: any) => (
+          <li key={member.node.id}>
+            {member.node.firstName} {member.node.lastName}
+          </li>
+        ))}
+      </ul>
+      <Link to={`/${projectId}/issues`}>Issues</Link>
+      <Link to={`/${projectId}/issues/new`}>
+        <button className="button">Create Issue</button>
+      </Link>
+    </div>
   );
 }

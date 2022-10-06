@@ -16,7 +16,7 @@ export function Verify() {
   }, [verificationKey]);
 
   return (
-    <>
+    <div className="container">
       <h2>Verify</h2>
       {error && <p>{error.message}</p>}
       {data && (
@@ -27,6 +27,6 @@ export function Verify() {
           </p>
         </>
       )}
-    </>
+    </div>
   );
 }

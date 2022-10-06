@@ -1,68 +1,101 @@
 import * as React from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { UserContext } from './context';
-import { CreateProject, ForgotPassword, Home, Login, Project, ResetPassword, SignUp, Verify } from './routes';
+import {
+  CreateIssue,
+  CreateProject,
+  ForgotPassword,
+  Home,
+  Issue,
+  Issues,
+  Login,
+  Project,
+  ResetPassword,
+  SignUp,
+  Verify,
+} from './routes';
 import { ME_QUERY } from './queries';
 import './App.scss';
+import { Button } from './components';
 
 export function App() {
+  const client = useApolloClient();
+  const token = localStorage.getItem('token');
   const [user, setUser] = React.useState(null);
-  const [getMe] = useLazyQuery(ME_QUERY);
 
   React.useEffect(() => {
-    const token = localStorage.getItem('token');
     if (token) {
-      getMe()
+      client
+        .query({
+          query: ME_QUERY,
+        })
         .then((meRes) => {
-          if (meRes.error) {
-            localStorage.removeItem('token');
-            setUser(null);
-          }
           if (meRes.data && meRes.data.me) {
             setUser(meRes.data.me);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          localStorage.removeItem('token');
+          setUser(null);
+        });
     }
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    window.location.replace('/login');
+  };
+
+  if (token && !user) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>
         <BrowserRouter>
-          <Link to="/">
-            <h1>Issue Tracker</h1>
-          </Link>
-          {!user && (
-            <>
-              <Link to="/login">
-                <p>Login</p>
+          <div className="nav">
+            <div className="container nav__content">
+              <Link to="/">
+                <h1 className="nav__title">Issue Tracker</h1>
               </Link>
-              <Link to="/signup">
-                <p>Sign Up</p>
-              </Link>
-            </>
-          )}
-          {user && (
-            <a
-              onClick={() => {
-                localStorage.removeItem('token');
-                setUser(null);
-              }}
-            >
-              Logout
-            </a>
-          )}
+              <div className="nav__spacer"></div>
+              {!user && (
+                <>
+                  <Link to="/login" className="nav__link">
+                    <Button>Login</Button>
+                  </Link>
+                  <Link to="/signup" className="nav__link">
+                    <Button>Sign Up</Button>
+                  </Link>
+                </>
+              )}
+              {user && (
+                <a
+                  className="nav__link"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  <button className="button">Logout</button>
+                </a>
+              )}
+            </div>
+          </div>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/create-project" element={<CreateProject />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/project/:id" element={<Project />} />
-            <Route path="/reset-password/:resetPasswordKey" element={<ResetPassword />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/verify/:verificationKey" element={<Verify />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:resetPasswordKey" element={<ResetPassword />} />
+            <Route path="/create-project" element={<CreateProject />} />
+            <Route path="/:projectId" element={<Project />} />
+            <Route path="/:projectId/issues" element={<Issues />} />
+            <Route path="/:projectId/issues/:issueId" element={<Issue />} />
+            <Route path="/:projectId/issues/new" element={<CreateIssue />} />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>

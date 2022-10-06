@@ -19,22 +19,29 @@ export function ForgotPassword() {
   };
 
   return (
-    <>
+    <div className="container">
       <h2>Forgot Password</h2>
       <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          readOnly={loading}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
+        <p>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            className="input"
+            readOnly={loading}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </p>
         {error && <p>{error.message}</p>}
-        {!loading && <button type="submit">Reset Password</button>}
+        <p>
+          <button type="submit" className="button" disabled={loading}>
+            Reset Password
+          </button>
+        </p>
       </form>
-    </>
+    </div>
   );
 }

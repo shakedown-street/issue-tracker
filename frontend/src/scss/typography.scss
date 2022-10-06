@@ -1,0 +1,10 @@
+@import 'mixins';
+@import 'variables';
+
+html,
+body {
+  @include normal;
+  color: $gray-dark;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  line-height: 1.25;
+}

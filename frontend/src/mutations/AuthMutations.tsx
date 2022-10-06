@@ -38,6 +38,7 @@ export const TOKEN_AUTH_MUTATION = gql`
       token
       user {
         id
+        pk
         email
         firstName
         lastName

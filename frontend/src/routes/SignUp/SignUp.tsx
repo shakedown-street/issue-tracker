@@ -23,42 +23,55 @@ export function SignUp() {
   };
 
   return (
-    <>
+    <div className="container">
       <h2>Sign Up</h2>
       <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          readOnly={loading}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <label htmlFor="password1">Password</label>
-        <input
-          id="password1"
-          type="password"
-          readOnly={loading}
-          value={password1}
-          onChange={(e) => {
-            setPassword1(e.target.value);
-          }}
-        />
-        <label htmlFor="password2">Password (Again)</label>
-        <input
-          id="password2"
-          type="password"
-          readOnly={loading}
-          value={password2}
-          onChange={(e) => {
-            setPassword2(e.target.value);
-          }}
-        />
+        <p>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            className="input"
+            readOnly={loading}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </p>
+        <p>
+          <label htmlFor="password1">Password</label>
+          <input
+            id="password1"
+            type="password"
+            className="input"
+            readOnly={loading}
+            value={password1}
+            onChange={(e) => {
+              setPassword1(e.target.value);
+            }}
+          />
+        </p>
+        <p>
+          <label htmlFor="password2">Password (Again)</label>
+          <input
+            id="password2"
+            type="password"
+            className="input"
+            readOnly={loading}
+            value={password2}
+            onChange={(e) => {
+              setPassword2(e.target.value);
+            }}
+          />
+        </p>
         {error && <p>{error.message}</p>}
-        {!loading && <button type="submit">Sign Up</button>}
+        <p>
+          <button type="submit" className="button" disabled={loading}>
+            Sign Up
+          </button>
+        </p>
       </form>
-    </>
+    </div>
   );
 }

@@ -5,10 +5,12 @@ export const CREATE_LABEL_MUTATION = gql`
     createLabel(projectId: $projectId, name: $name, color: $color) {
       label {
         id
+        pk
         createdAt
         modifiedAt
         project {
           id
+          pk
         }
         name
         color

@@ -5,6 +5,7 @@ export const CREATE_PROJECT_MUTATION = gql`
     createProject(name: $name, description: $description, website: $website) {
       project {
         id
+        pk
         createdAt
         modifiedAt
         name
@@ -12,9 +13,11 @@ export const CREATE_PROJECT_MUTATION = gql`
         website
         owner {
           id
+          pk
         }
         members {
           id
+          pk
         }
       }
     }
