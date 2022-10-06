@@ -1,3 +1,4 @@
+from datetime import datetime
 import graphene
 
 from apps.users.models import EmailUser
@@ -140,8 +141,8 @@ class CreateIssueMutation(graphene.Mutation):
         info,
         project_id,
         title,
-        description,
-        due_date,
+        description=None,
+        due_date=None,
         assignee_id=None,
         label_ids=[],
     ):
@@ -166,6 +167,30 @@ class CreateIssueMutation(graphene.Mutation):
         return CreateIssueMutation(issue=issue)
 
 
+class CloseIssueMutation(graphene.Mutation):
+    class Arguments:
+        issue_id = graphene.ID(required=True)
+
+    issue = graphene.Field(IssueType)
+
+    @classmethod
+    def mutate(
+        cls,
+        root,
+        info,
+        issue_id,
+    ):
+        if not info.context.user:
+            raise Exception("You do not have permission to perform this action")
+        issue = Issue.objects.get(id=issue_id)
+        if issue.closed_at:
+            raise Exception("Issue is already closed")
+        issue.closed_by = info.context.user
+        issue.closed_at = datetime.now()
+        issue.save()
+        return CloseIssueMutation(issue=issue)
+
+
 class Mutation(graphene.ObjectType):
     create_project = CreateProjectMutation.Field()
     update_project = UpdateProjectMutation.Field()
@@ -176,3 +201,4 @@ class Mutation(graphene.ObjectType):
     update_label = UpdateLabelMutation.Field()
 
     create_issue = CreateIssueMutation.Field()
+    close_issue = CloseIssueMutation.Field()
